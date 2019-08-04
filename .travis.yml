@@ -4,4 +4,15 @@ services:
 before_install:
         - docker build -t mayankbharawa/docker-react -f Dockerfile.dev .
 scripts:
-        - docker run mayankbharawa/docker-react npm run test -- --coverage        
+        - docker run mayankbharawa/docker-react npm run test -- --coverage      deploy:
+        provider: elasticbeanstalk
+        region: "ap-south-1"
+        app: "docker-react"
+        env: "DockerReact-env"
+        bucket_name: "elasticbeanstalk-ap-south-1-578926832615"
+        bucket_path: "docker-react"
+        on:
+                branch: master
+        access_key_id: $aws-access-key
+        secret_key_id:
+                secure: "$aws-secret-key"
